@@ -9,6 +9,7 @@ data FB = Fizz | Buzz | FizzBuzz deriving Show
 -- lazy infinite lists
 threes :: [Maybe FB]
 threes = join $ repeat [Nothing, Nothing, Just Fizz]
+fives :: [Maybe FB]
 fives = join $ repeat [ Nothing, Nothing, Nothing, Nothing, Just Buzz]
 
 fbplus :: Maybe FB -> Maybe FB -> Maybe FB
@@ -20,6 +21,7 @@ _           `fbplus` _           = error "Bad use case for fbplus"
 
 tags :: [Maybe FB]
 tags = zipWith fbplus threes fives
+
 
 combined :: [(Int, Maybe FB)]
 combined = zip [1..] tags
@@ -33,8 +35,9 @@ prettify (i, t) =
 main :: IO ()
 main = mapM_ (printf "%s\n") . (take 100) $ (map prettify combined)
 
+       
 {-- in ghci, invoke with `main`
-
+{
 λ> main
 1
 2
