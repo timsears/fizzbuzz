@@ -1,12 +1,15 @@
+{-# LANGUAGE RecordWildCards #-}
 -- | fizzbuzz
 
 module Main where
-import Control.Monad (join)
-import Text.Printf (printf)
+
+import           Control.Monad (join)
+import           Data.Profunctor
+import           Text.Printf (printf)
 
 data FB = Fizz | Buzz | FizzBuzz deriving Show
 
--- lazy infinite lists
+-- Lazy infinite lists
 threes :: [Maybe FB]
 threes = join $ repeat [Nothing, Nothing, Just Fizz]
 fives :: [Maybe FB]
@@ -18,12 +21,11 @@ Nothing     `fbplus` Nothing     = Nothing
 Nothing     `fbplus` (Just Buzz) = Just Buzz
 (Just Fizz) `fbplus` (Just Buzz) = Just FizzBuzz
 _           `fbplus` _           = error "Bad use case for fbplus"
-
+ 
 tags :: [Maybe FB]
 tags = zipWith fbplus threes fives
 
-
-combined :: [(Int, Maybe FB)]
+combined :: [(Int, Maybe FB)] 
 combined = zip [1..] tags
 
 prettify :: (Int, Maybe FB) -> String
@@ -33,9 +35,19 @@ prettify (i, t) =
     Just fb -> show fb
 
 main :: IO ()
-main = mapM_ (printf "%s\n") . (take 100) $ (map prettify combined)
+main = mapM_ (printf "%s\n") . take 100 $ map prettify combined
 
-       
+
+eights :: [Maybe FB]
+eights = fives ++ threes
+
+t :: [Maybe FB]
+t = eights ++ fives
+
+z :: Bool
+z = if True then False else True
+
+
 {-- in ghci, invoke with `main`
 {
 λ> main
