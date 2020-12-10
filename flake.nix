@@ -16,8 +16,9 @@
                    };
         };
       in
-        {
-          devShell = import ./shell.nix { pkgs = pkgs'; };
+        rec {
+          devShell = (import ./shell.nix { pkgs = pkgs'; }).env;
+          defaultPackage = (import ./shell.nix { pkgs = pkgs'; });
         }
     );
 }
