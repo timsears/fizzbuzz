@@ -19,19 +19,23 @@
             allowBroken = true;
             allowUnsupportedSystem = true;
           };
-          # overlays = [] # in case you need to tweak some nix pkgs
+          # overlays = [] # Add or tweak non-Haskell packages here.
         };
 
         haskellPackages = pkgs.haskell.packages.${compiler}.override {
           overrides = self: super: {
             "${name}" = self.callCabal2nix name ./. {};
-            # override other Haskell packages as needed
+            # Override other Haskell packages as needed here.
           };
         };
         
-        devenv = haskellPackages.shellFor {
-          withHoogle = true;
-          packages = p: [ p."${name}" ]; # add others like p.lens for Haskell hacking env.
+        devEnv = haskellPackages.shellFor {
+          withHoogle = true; # Provides docs, optional. 
+          packages = p: [
+            p."${name}"
+            # Add other Haskell packages below if you just want a Haskell hacking env.
+            # p.lens
+          ]; 
           buildInputs = with pkgs; [
             haskellPackages.cabal-install
             haskellPackages.ghcid
@@ -39,7 +43,7 @@
             haskellPackages.hlint
             haskellPackages.ormolu
             cabal2nix
-            # ... add more tools as needed
+            # Add more dev tools as needed. They won't be included by `nix build`
           ];
         };
 
@@ -47,9 +51,8 @@
         
       in
         rec {
-          devShell = devenv; # has more tools than drv.env
+          devShell = devEnv; # Has more tools than drv.env.
           defaultPackage = drv;
           #packages = drv; # broken???
         });
 }
-
