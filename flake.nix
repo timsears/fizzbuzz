@@ -19,6 +19,7 @@
             allowBroken = true;
             allowUnsupportedSystem = true;
           };
+          # overlays = [] # in case you need to tweak some nix pkgs
         };
 
         haskellPackages = pkgs.haskell.packages.${compiler}.override {
@@ -33,16 +34,22 @@
           packages = p: [ p."${name}" ]; # add others like p.lens for Haskell hacking env.
           buildInputs = with pkgs; [
             haskellPackages.cabal-install
+            haskellPackages.ghcid
+            haskellPackages.haskell-language-server
+            haskellPackages.hlint
+            haskellPackages.ormolu
             cabal2nix
-            ormolu # code formatter
-            # ... add more tool as needed
+            # ... add more tools as needed
           ];
         };
+
+        drv = haskellPackages."${name}";
         
       in
         rec {
           devShell = devenv; # has more tools than drv.env
-          defaultPackage = haskellPackages.drv;
-        }
-    );
+          defaultPackage = drv;
+          #packages = drv; # broken???
+        });
 }
+
