@@ -15,7 +15,7 @@
         "type": "github"
       }
     },
-    "pkgs": {
+    "nixpkgs": {
       "locked": {
         "lastModified": 1607245000,
         "narHash": "sha256-j5/2ifXdBjGjd/hG+WNCaZNMaEFOxEtV9+/pa6tP0p8=",
@@ -31,7 +31,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "pkgs": "pkgs"
+        "nixpkgs": "nixpkgs"
       }
     }
   },
