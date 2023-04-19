@@ -10,7 +10,7 @@
       let
 
         name = "fizzbuzz";     # Customize
-        compiler = "ghc8102";  # Customize
+        compiler = "ghc8107";  # Customize
          
         pkgs = import nixpkgs {
           inherit system;
@@ -38,12 +38,10 @@
           ]; 
           buildInputs = with pkgs; [
             haskellPackages.cabal-install
-            haskellPackages.ghcid
             haskellPackages.haskell-language-server
-            haskellPackages.hlint
-            haskellPackages.ormolu
-            cabal2nix
-            # Add more dev tools as needed. They won't be included by `nix build`
+            haskellPackages.cabal2nix
+            # vscode? better to install at the user/system level, and rely on direnv or launch after `nix develop`./ 
+            # vscode 
           ];
         };
 

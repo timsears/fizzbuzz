@@ -1,17 +1,17 @@
-{-# LANGUAGE RecordWildCards #-}
--- | fizzbuzz
 
 module Main where
+-- | fizzbuzz
 
-import           Control.Monad (join)
-import           Data.Profunctor
-import           Text.Printf (printf)
+import Control.Monad (join)
+import Text.Printf (printf)
+
 
 data FB = Fizz | Buzz | FizzBuzz deriving Show
 
 -- Lazy infinite lists
 threes :: [Maybe FB]
 threes = join $ repeat [Nothing, Nothing, Just Fizz]
+
 fives :: [Maybe FB]
 fives = join $ repeat [ Nothing, Nothing, Nothing, Nothing, Just Buzz]
 
@@ -37,7 +37,6 @@ prettify (i, t) =
 main :: IO ()
 main = mapM_ (printf "%s\n") . take 100 $ map prettify combined
 
-
 eights :: [Maybe FB]
 eights = fives ++ threes
 
@@ -47,10 +46,12 @@ t = eights ++ fives
 z :: Bool
 z = if True then False else True
 
+-- <<< main
 
 {-- in ghci, invoke with `main`
 {
 λ> main
+
 1
 2
 Fizz
